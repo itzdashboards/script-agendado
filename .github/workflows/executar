@@ -1,4 +1,5 @@
 name: 1 - Executar script Python
+
 on:
   schedule:
     - cron: "*/10 * * * 1-5"     # Seg–Sex: a cada 10 min (UTC)
