@@ -6,7 +6,7 @@ on:
     - cron: "0 18 * * 6,0"      # Sáb/Dom: 18:00
   workflow_dispatch:            # Execução manual 
 
-jobs:
+jobs: 
   run-script:
     runs-on: ubuntu-latest
 
