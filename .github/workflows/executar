@@ -1,7 +1,7 @@
 name: 1 - Executar script Python
 on:
   schedule:
-    - cron: "00,10,20,30,40,50 * * * 1-5"   # Seg-Sex: minuto 00 e 30 de cada hora
+    - cron: "*/10 * * * 1-5"     # Seg–Sex: a cada 10 min (UTC)
     - cron: "0 18 * * 6,0"      # Sáb/Dom: 18:00
   workflow_dispatch:            # Execução manual
 
