@@ -12,7 +12,7 @@ from googleapiclient.discovery import build
 
 # === GOOGLE CONFIG ===
 SERVICE_ACCOUNT_FILE = 'credenciais.json'
-SPREADSHEET_ID = '1oxVFrkRzy5GV55FFTSjPUmABpwFUpSd0XyT7ZYcQRZk'
+SPREADSHEET_ID = '13_q2iGwqjpyY6JaCREiaJdeSqF9ZyRb7wvzGp9XcKNQ'
 SHEET_NAME = 'ConsultarOcorrencias'
 
 # === SOAP CONFIG ===
@@ -34,7 +34,7 @@ CAMPOS = (
 )
 
 # janela de consulta (ontem 00:00 até amanhã 23:59:59)
-inicio = (datetime.now() - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+inicio = (datetime.now() - timedelta(days=2)).replace(hour=0, minute=0, second=0, microsecond=0)
 fim = inicio + timedelta(days=2) - timedelta(seconds=1)
 
 DATA_INI = inicio.strftime('%Y-%m-%d %H:%M:%S')
@@ -246,9 +246,9 @@ df_final = pd.concat([df_final, df_novo], ignore_index=True)
 
 # === 5) FILTROS ===
 areas_permitidas = [
-    'Em desenvolvimento ABAP, PI, WF, WD, .NET', 'EC para ECP (colaboradores)',
+    'Em desenvolvimento ABAP, PI, WF, WD, .NET', 'EC para ECP (colaboradores)', 'EC para ECP',
     'EC para Enterprise SQL/SAP IBS (colaboradores)', 'EC para WFS', 'ECP para ADP',
-    'ECP para EC (CIPA, Demais estabilidades)', 'ECP para Enterprise SQL (ficha financeira)',
+    'ECP para EC (CIPA, Demais estabilidades)', 'ECP para Enterprise SQL (ficha financeira)', 'Enterprise',
     'ECP para SAP IBS (contábil)', 'ECP para Senior (férias)',
     'ECP para SOC (Unidade, Setor, Cargo, Hierarquia, M',
     'ECP para Vacation Control (contingente)', 'GDP para EC (onboarding)', 'Integração ALE',
@@ -260,8 +260,10 @@ areas_permitidas = [
     'R - Integrations - EC Payroll, Boomi/SCI, API'
 ]
 
+padrao_areas = '|'.join(map(re.escape, areas_permitidas))
+
 df_final = df_final[
-    df_final['Divisão'].isin(areas_permitidas) &
+    df_final['Divisão'].str.contains(padrao_areas, na=False) &
     (~df_final['Status (sem tempo decorrido)'].isin([
         'Encerrada',
         'Ocorrência Cancelada',
@@ -311,6 +313,8 @@ sheets_service.spreadsheets().values().update(
 ).execute()
 
 print(f"📅 Metadata atualizada: {ultima_modificacao}")
+
+
 
 
 
