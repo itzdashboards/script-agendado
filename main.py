@@ -12,7 +12,7 @@ from googleapiclient.discovery import build
 
 # === GOOGLE CONFIG ===
 SERVICE_ACCOUNT_FILE = 'credenciais.json'
-SPREADSHEET_ID = '13_q2iGwqjpyY6JaCREiaJdeSqF9ZyRb7wvzGp9XcKNQ'
+SPREADSHEET_ID = '1oxVFrkRzy5GV55FFTSjPUmABpwFUpSd0XyT7ZYcQRZk'
 SHEET_NAME = 'ConsultarOcorrencias'
 
 # === SOAP CONFIG ===
@@ -313,6 +313,7 @@ sheets_service.spreadsheets().values().update(
 ).execute()
 
 print(f"📅 Metadata atualizada: {ultima_modificacao}")
+
 
 
 
